@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.marcos.api_pedidos.dto.CategoryCreateDto;
+import com.marcos.api_pedidos.dto.CategoryResponseDto;
 import com.marcos.api_pedidos.entities.Category;
+import com.marcos.api_pedidos.mapper.CategoryMapper;
 import com.marcos.api_pedidos.service.CategoryService;
 
 import jakarta.validation.Valid;
@@ -27,9 +30,9 @@ public class CategoryController {
 	private CategoryService service;
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Category> findById(@PathVariable Long id) {
+	public ResponseEntity<CategoryResponseDto> findById(@PathVariable Long id) {
 		Category cat = service.findById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(cat);
+		return ResponseEntity.status(HttpStatus.OK).body(CategoryMapper.toDto(cat));
 	}
 
 	@GetMapping
@@ -39,9 +42,10 @@ public class CategoryController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Category> create(@Valid @RequestBody Category category) {
-		Category cat = service.create(category);
-		return ResponseEntity.status(HttpStatus.CREATED).body(cat);
+	public ResponseEntity<CategoryResponseDto> create(@Valid @RequestBody CategoryCreateDto dto) {
+		Category cat = CategoryMapper.toCategory(dto);
+		service.create(cat);
+		return ResponseEntity.status(HttpStatus.CREATED).body(CategoryMapper.toDto(cat));
 	}
 
 	@PutMapping("{id}")
