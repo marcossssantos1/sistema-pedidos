@@ -17,13 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.marcos.api_pedidos.dto.CategoryCreateDto;
 import com.marcos.api_pedidos.dto.CategoryResponseDto;
 import com.marcos.api_pedidos.entities.Category;
+import com.marcos.api_pedidos.entities.Product;
 import com.marcos.api_pedidos.mapper.CategoryMapper;
+import com.marcos.api_pedidos.mapper.ProductMapper;
 import com.marcos.api_pedidos.service.CategoryService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("api/v1/categories")
 public class CategoryController {
 
 	@Autowired
@@ -49,10 +51,13 @@ public class CategoryController {
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<Category> update(@PathVariable @Valid Long id, @RequestBody @Valid Category category) {
-		Category cat = service.update(id, category);
+	public ResponseEntity<CategoryResponseDto> update(@PathVariable @Valid Long id,
+			@RequestBody @Valid CategoryCreateDto dto) {
+		Category cat = CategoryMapper.toCategory(dto);
+		cat = service.update(id, cat);
 		cat = service.findById(cat.getId());
-		return ResponseEntity.status(HttpStatus.OK).body(cat);
+		return ResponseEntity.status(HttpStatus.OK).body(CategoryMapper.toDto(cat));
+
 	}
 
 	@DeleteMapping("/{id}")
