@@ -1,7 +1,5 @@
 package com.marcos.api_pedidos.entities;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -9,31 +7,41 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "tb_category")
-public class Category {
+@Table(name = "tb_users")
+public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "name", unique = true)
 	@NotBlank
+	@Column(name = "name")
 	private String name;
+	@NotBlank
+	@Column(name = "email")
+	private String email;
+	@NotBlank
+	@Column(name = "telefone")
+	private String telefone;
+	@NotBlank
+	@Column(name = "password")
+	private String password;
 
-	/* @JoinColumn(name = "id_products", nullable = false) */
-	@OneToMany(mappedBy = "categories")
-	private List<Product> product = new ArrayList<>();
-
-	public Category() {
+	public User() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public Category(Long id, String name) {
+	public User(Long id, @NotBlank String name, @NotBlank String email, @NotBlank String telefone,
+			@NotBlank String password) {
+		super();
 		this.id = id;
 		this.name = name;
+		this.email = email;
+		this.telefone = telefone;
+		this.password = password;
 	}
 
 	public Long getId() {
@@ -52,8 +60,28 @@ public class Category {
 		this.name = name;
 	}
 
-	public List<Product> getProduct() {
-		return product;
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
@@ -69,7 +97,7 @@ public class Category {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
 

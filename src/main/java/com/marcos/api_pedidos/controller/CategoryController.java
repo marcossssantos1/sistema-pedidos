@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.marcos.api_pedidos.dto.CategoryCreateDto;
 import com.marcos.api_pedidos.dto.CategoryResponseDto;
 import com.marcos.api_pedidos.entities.Category;
-import com.marcos.api_pedidos.entities.Product;
 import com.marcos.api_pedidos.mapper.CategoryMapper;
-import com.marcos.api_pedidos.mapper.ProductMapper;
 import com.marcos.api_pedidos.service.CategoryService;
 
 import jakarta.validation.Valid;

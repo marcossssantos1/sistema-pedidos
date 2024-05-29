@@ -1,8 +1,6 @@
 package com.marcos.api_pedidos.entities;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,8 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
@@ -30,9 +27,10 @@ public class Product {
 	@Column(name = "price", nullable = false)
 	private Double price;
 
-	@ManyToMany
-	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<Category> categories = new HashSet<>();
+	@ManyToOne
+	/*@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id", nullable = false), inverseJoinColumns = @JoinColumn(name = "category_id"))*/
+	@JoinColumn(name = "id_category", nullable = false)
+	private Category categories;
 
 	public Product() {
 	}
@@ -43,6 +41,14 @@ public class Product {
 		this.name = name;
 		this.description = description;
 		this.price = price;
+	}
+
+	public Product(Long id, @NotBlank String name, String description, Double price, Category categories) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.categories = categories;
 	}
 
 	public Long getId() {
@@ -77,7 +83,11 @@ public class Product {
 		this.price = price;
 	}
 
-	public void setCategories(Set<Category> categories) {
+	public Category getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Category categories) {
 		this.categories = categories;
 	}
 
