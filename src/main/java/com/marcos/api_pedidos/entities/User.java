@@ -1,5 +1,7 @@
 package com.marcos.api_pedidos.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -7,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
@@ -29,6 +32,9 @@ public class User {
 	@NotBlank
 	@Column(name = "password")
 	private String password;
+	
+	@OneToMany(mappedBy = "users")
+	private List<Order> order = new ArrayList<>();
 
 	public User() {
 		// TODO Auto-generated constructor stub
