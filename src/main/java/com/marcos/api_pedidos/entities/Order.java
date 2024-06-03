@@ -1,10 +1,13 @@
 package com.marcos.api_pedidos.entities;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.marcos.api_pedidos.enums.OrderStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,20 +30,26 @@ public class Order {
 	private Instant moment;
 
 	private Integer orderStatus;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User users;
+
+	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+	private Payment payment;
+
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
 
 	public Order() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(Long id, Instant moment, OrderStatus orderStatus) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User users) {
 		this.id = id;
 		this.moment = moment;
 		setOrderStatus(orderStatus);
-		;
+		this.users = users;
 	}
 
 	public Long getId() {
@@ -57,6 +68,22 @@ public class Order {
 		this.moment = moment;
 	}
 
+	public User getUsers() {
+		return users;
+	}
+
+	public void setUsers(User users) {
+		this.users = users;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
 	public OrderStatus getOrderStatus() {
 		return OrderStatus.valueOf(orderStatus);
 	}
@@ -66,9 +93,17 @@ public class Order {
 			this.orderStatus = orderStatus.getCode();
 		}
 	}
-	
+
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+
 	public Double total() {
-		return 0.0;
+		double sum = 0.0;
+		for (OrderItem i : items) {
+			sum += i.subTotal();
+		}
+		return sum;
 	}
 
 	@Override
