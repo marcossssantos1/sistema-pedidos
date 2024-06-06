@@ -33,7 +33,7 @@ public class Order {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	private User users;
+	private Users users;
 
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
@@ -45,7 +45,7 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(Long id, Instant moment, OrderStatus orderStatus, User users) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, Users users) {
 		this.id = id;
 		this.moment = moment;
 		setOrderStatus(orderStatus);
@@ -68,11 +68,11 @@ public class Order {
 		this.moment = moment;
 	}
 
-	public User getUsers() {
+	public Users getUsers() {
 		return users;
 	}
 
-	public void setUsers(User users) {
+	public void setUsers(Users users) {
 		this.users = users;
 	}
 

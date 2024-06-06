@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.marcos.api_pedidos.dto.UserCreateDto;
 import com.marcos.api_pedidos.dto.UserResponseDto;
-import com.marcos.api_pedidos.entities.User;
+import com.marcos.api_pedidos.entities.Users;
 import com.marcos.api_pedidos.exceptions.ErrorMessage;
 import com.marcos.api_pedidos.mapper.UserMapper;
 import com.marcos.api_pedidos.service.UserService;
@@ -39,7 +39,7 @@ public class UserController {
 			@ApiResponse(responseCode = "422", description = "Dados de entrada estão invalidos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))) })
 	@PostMapping
 	public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserCreateDto dto) {
-		User prod = UserMapper.toUser(dto);
+		Users prod = UserMapper.toUser(dto);
 		service.create(prod);
 		return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(prod));
 	}
@@ -54,7 +54,7 @@ public class UserController {
 	})
 	@GetMapping("/{id}")
 	public ResponseEntity<UserResponseDto> findById(@Valid @PathVariable Long id) {
-		User prod = service.findById(id);
+		Users prod = service.findById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toDto(prod));
 	}
 
@@ -64,8 +64,8 @@ public class UserController {
 							content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class)))
 	})
 	@GetMapping
-	public ResponseEntity<List<User>> findAll() {
-		List<User> prod = service.findAll();
+	public ResponseEntity<List<Users>> findAll() {
+		List<Users> prod = service.findAll();
 		return ResponseEntity.status(HttpStatus.OK).body(prod);
 	}
 
@@ -93,7 +93,7 @@ public class UserController {
 	})
 	@PutMapping("/{id}")
 	public ResponseEntity<UserResponseDto> update(@PathVariable Long id, @RequestBody UserCreateDto dto) {
-		User prod = UserMapper.toUser(dto);
+		Users prod = UserMapper.toUser(dto);
 		prod = service.update(id, prod);
 		prod = service.findById(prod.getId());
 		return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toDto(prod));

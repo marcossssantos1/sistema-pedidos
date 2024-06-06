@@ -5,19 +5,19 @@ public class UserResponseDto {
 	private String name;
 	private String email;
 	private String telefone;
-
 	private String password;
+	private String role;
 
 	public UserResponseDto() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public UserResponseDto(String name, String email, String telefone, String password) {
+	public UserResponseDto(String name, String email, String telefone, String password, String role) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.telefone = telefone;
 		this.password = password;
+		this.role = role;
 	}
 
 	public String getName() {
@@ -50,6 +50,14 @@ public class UserResponseDto {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 }
