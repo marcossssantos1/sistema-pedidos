@@ -64,9 +64,9 @@ public class UserController {
 							content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDto.class)))
 	})
 	@GetMapping
-	public ResponseEntity<List<Users>> findAll() {
+	public ResponseEntity<List<UserResponseDto>> findAll() {
 		List<Users> prod = service.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(prod);
+		return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toListDto(prod));
 	}
 
 	@Operation(summary = "Recuperar usuario pelo id e excluir da base", description="Recurso para buscar um usuario pelo id e excluir", responses = {

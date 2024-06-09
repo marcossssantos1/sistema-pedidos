@@ -1,5 +1,8 @@
 package com.marcos.api_pedidos.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 
 import com.marcos.api_pedidos.dto.UserCreateDto;
@@ -16,4 +19,7 @@ public class UserMapper {
 		return new ModelMapper().map(prod, UserResponseDto.class);
 	}
 	
+	public static List<UserResponseDto> toListDto(List<Users> usuarios) {
+        return usuarios.stream().map(user -> toDto(user)).collect(Collectors.toList());
+    }
 }
